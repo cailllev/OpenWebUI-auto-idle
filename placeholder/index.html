@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Open-WebUI</title>
+<style>
+  body { font-family: sans-serif; text-align: center; margin-top: 20%; }
+</style>
+<script>
+  async function checkServer() {
+    try {
+      const response = await fetch('/');
+      if (response.status === 502) {
+        // Server still down, retry after 1 second
+        setTimeout(checkServer, 1000);
+      } else {
+        // Server up, reload to show live UI
+        location.reload();
+      }
+    } catch (error) {
+      // Network error or no response, retry after 1 second
+      setTimeout(checkServer, 1000);
+    }
+  }
+
+  window.addEventListener('load', () => {
+    setTimeout(checkServer, 3000); // check connectivity after 3 seconds
+  });
+</script>
+</head>
+<body>
+  <h2>Open-WebUI is starting...</h2>
+  <p>Please wait a few seconds.</p>
+</body>
+</html>
